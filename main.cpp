@@ -42,10 +42,6 @@ public:
         s << status_leitura_de_dados.mensagem;
         return s;
     }
-    bool eh_codigo_de_sucesso()
-    {
-        return codigo == 200;
-    }
     bool eh_codigo_de_erro()
     {
         return codigo != 200;
@@ -633,12 +629,19 @@ public:
         }
     }
 
-    void executar_algoritmo()
+    void imprimir_melhor_da_geracao(int indice_geracao){
+        Individuo melhor_individuo_geracao = selecionar_melhor_individuo();
+        cout << "Melhor individuo da geracao " << indice_geracao << ": " << melhor_individuo_geracao << endl;
+        cout << "Fitness do melhor individuo " << ": " << fitness(melhor_individuo_geracao) << endl;
+        cout << endl;
+    }
+
+    void executar()
     {
         for (int i = 0; i < NUM_GERACOES; ++i)
         {
             individuos = gerar_nova_populacao();
-            cout << selecionar_melhor_individuo() << " -> " << fitness(selecionar_melhor_individuo() )<< endl;
+            imprimir_melhor_da_geracao(i);
         }
     }
 
@@ -733,18 +736,10 @@ void gerar_e_cruzar_dois_individuos_aleatorios()
     cout << fitness(ind3) << endl;
 }
 
-void teste_selecao()
+void executar_algoritmo_genetico()
 {
     SelecaoGenetica selecaco;
-    // selecaco.executar_algoritmo();
-    selecaco.executar_algoritmo_ate_encontrar_otimo();
-}
-
-void teste()
-{
-    // gerar_e_cruzar_dois_individuos_aleatorios();
-    teste_selecao();
-    // gerar_melhor_individuo_brute_force();
+    selecaco.executar();
 }
 
 /* Main */
@@ -757,6 +752,6 @@ int main()
     {
         return -1;
     }
-    teste();
+    executar_algoritmo_genetico();
     return 0;
 }
