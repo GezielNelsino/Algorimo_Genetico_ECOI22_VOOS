@@ -1,8 +1,9 @@
 #ifndef INDIVIDUO_H
 #define INDIVIDUO_H
 
-#include<vector>
+#include <vector>
 #include <iostream>
+
 #include "./state.h"
 #include "../cabecalho/Aleatorio.h"
 #include "../cabecalho/Voo.h"

@@ -1,10 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <unordered_map>
-#include <sstream>
 #include <vector>
-#include <algorithm>
 
 #include "./cabecalho/state.h"
 #include "./classes/Voo.cpp"
@@ -12,6 +8,7 @@
 #include "./classes/Aleatorio.cpp"
 #include "./classes/Individuo.cpp"
 #include "./classes/SelecaoGenetica.cpp"
+
 using namespace std;
 
 /* Leitura e validacao de dados */

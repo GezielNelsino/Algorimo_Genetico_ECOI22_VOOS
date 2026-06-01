@@ -1,6 +1,9 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <unordered_map>
+#include <vector>
+
 #define PESO_CUSTO 1
 #define PESO_TEMPO 0.1
 #define TAM_POPULACAO 20

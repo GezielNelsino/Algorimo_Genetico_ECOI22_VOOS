@@ -2,6 +2,7 @@
 #define SELECAO_GENETICA_H
 
 #include <vector>
+
 #include "../cabecalho/Individuo.h"
 
 class SelecaoGenetica
@@ -25,7 +26,7 @@ public:
     void imprimir_melhor_da_geracao(int indice_geracao);
 
     void executar();
-    
+
     void executar_algoritmo_ate_encontrar_otimo(double otimo);
 
     double selecionar_melhor_fitness();
@@ -35,7 +36,6 @@ public:
     double selecionar_fitness_medio();
 
     double selecionar_variancia_populacional_fitness();
-
 };
 
 #endif
