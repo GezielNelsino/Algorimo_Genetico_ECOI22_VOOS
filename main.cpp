@@ -114,7 +114,7 @@ StatusLeituraDeDados ler_arquivo_de_voos()
                 return StatusLeituraDeDados(411, "Horario de fim do voo " + to_string(indice) + " em formato invalido");
             }
             Voo voo(sigla_origem, sigla_destino, horario_inicio, horario_fim, custo);
-            if (voo.siglas_nao_sao_validas(indice_cidade))
+            if (voo.siglas_nao_sao_validas())
             {
                 return StatusLeituraDeDados(401, "A sigla do voo " + to_string(indice) + " nao eh valida");
             }

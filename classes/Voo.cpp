@@ -9,7 +9,7 @@ Voo::Voo(std::string &_sigla_origem, std::string &_sigla_destino, std::string &_
 {
 }
 
-bool Voo::siglas_nao_sao_validas(std::unordered_map<std::string, int> &indice_cidade)
+bool Voo::siglas_nao_sao_validas()
 {
     return indice_cidade.find(this->sigla_origem) == indice_cidade.end() || indice_cidade.find(this->sigla_destino) == indice_cidade.end();
 }
