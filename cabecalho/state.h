@@ -5,14 +5,14 @@
 #include <vector>
 
 #define PESO_CUSTO 1
-#define PESO_TEMPO 0.1
-#define TAM_POPULACAO 20
-#define NUM_GERACOES 100
-#define PROB_MIN_CRUZAMENTO 70
-#define PROB_MIN_MUTACAO 5
-#define MEMBROS_TORNEIO 10
+#define PESO_TEMPO 1
+#define TAM_POPULACAO 200
+#define NUM_GERACOES 700
+#define PROB_MIN_CRUZAMENTO 80
+#define PROB_MIN_MUTACAO 10
+#define MEMBROS_TORNEIO 5
 #define PARAM_TORNEIO 80
-#define QNT_IDX_MUTADOS 1
+#define QNT_IDX_MUTADOS 3
 
 class Voo;
 

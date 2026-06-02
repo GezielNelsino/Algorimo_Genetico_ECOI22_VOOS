@@ -102,8 +102,23 @@ void SelecaoGenetica::imprimir_individuos()
 void SelecaoGenetica::imprimir_melhor_da_geracao(int indice_geracao)
 {
     Individuo melhor_individuo_geracao = selecionar_melhor_individuo();
-    std::cout << "Melhor individuo da geracao " << indice_geracao << ": " << melhor_individuo_geracao << std::endl;
-    std::cout << "Fitness do melhor individuo " << ": " << fitness(melhor_individuo_geracao) << std::endl;
+    auto resultados_da_geracao = selecionar_melhor_pior_media_variancia_fitness_geracao();
+    std::cout << "Melhor individuo da geracao " << indice_geracao << "\t\t: " << melhor_individuo_geracao << std::endl;
+    std::cout << "Fitness do melhor individuo " << "\t\t: " << std::get<0>(resultados_da_geracao) << std::endl;
+    std::cout << "Fitness do pior individuo " << "\t\t\t: " << std::get<1>(resultados_da_geracao) << std::endl;
+    std::cout << "Fitness medio dos individuos " << "\t\t: " << std::get<2>(resultados_da_geracao) << std::endl;
+    std::cout << "Variancia do fitness dos individuos " << ": " << std::get<3>(resultados_da_geracao) << std::endl;
+    std::cout << std::endl;
+}
+
+void SelecaoGenetica::imprimir_melhor_da_geracao_em_colunas(int indice_geracao)
+{
+    auto resultados_da_geracao = selecionar_melhor_pior_media_variancia_fitness_geracao();
+    std::cout << std::fixed << std::setprecision(3);
+    std::cout << std::get<0>(resultados_da_geracao) << " \t";
+    std::cout << std::get<1>(resultados_da_geracao) << " \t";
+    std::cout << std::get<2>(resultados_da_geracao) << " \t";
+    std::cout << std::get<3>(resultados_da_geracao) << " \t";
     std::cout << std::endl;
 }
 
@@ -112,7 +127,7 @@ void SelecaoGenetica::executar()
     for (int i = 0; i < NUM_GERACOES; ++i)
     {
         individuos = gerar_nova_populacao();
-        imprimir_melhor_da_geracao(i);
+        imprimir_melhor_da_geracao_em_colunas(i);
     }
 }
 
@@ -125,6 +140,7 @@ void SelecaoGenetica::executar_algoritmo_ate_encontrar_otimo(double otimo)
         individuos = gerar_nova_populacao();
         resultado = selecionar_melhor_fitness();
         ++i;
+        std::cout << resultado << std::endl;
     }
     std::cout << "Demorou " << i << " iteracoes" << std::endl;
     std::cout << selecionar_melhor_individuo() << std::endl;
@@ -176,4 +192,33 @@ double SelecaoGenetica::selecionar_variancia_populacional_fitness()
         numerador += atual * atual;
     }
     return sqrt(numerador / TAM_POPULACAO);
+}
+
+std::tuple<double, double, double, double> SelecaoGenetica::selecionar_melhor_pior_media_variancia_fitness_geracao()
+{
+    int ind_melhor, ind_pior;
+    double numerador_media, numerador_variancia;
+    ind_melhor = ind_pior = 0;
+    numerador_media = fitness(individuos[0]);
+    numerador_variancia = 0;
+    for (int i = 1; i < TAM_POPULACAO; ++i)
+    {
+        if (fitness(individuos[i]) < fitness(individuos[ind_melhor]))
+        {
+            ind_melhor = i;
+        }
+        if (fitness(individuos[i]) > fitness(individuos[ind_pior]))
+        {
+            ind_pior = i;
+        }
+        numerador_media += fitness(individuos[i]);
+    }
+    double media_populacao = numerador_media / TAM_POPULACAO;
+    for (int i = 0; i < TAM_POPULACAO; ++i)
+    {
+        double atual = (fitness(individuos[i]) - media_populacao);
+        numerador_variancia += atual * atual;
+    }
+    double variancia = sqrt(numerador_variancia / TAM_POPULACAO);
+    return std::make_tuple(fitness(individuos[ind_melhor]), fitness(individuos[ind_pior]), media_populacao, variancia > 1e-12 ? variancia : 0);
 }

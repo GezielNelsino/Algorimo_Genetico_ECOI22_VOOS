@@ -243,9 +243,9 @@ void executar_algoritmo_genetico()
 int main()
 {
     StatusLeituraDeDados status_entrada_de_informacoes = validar_entrada_de_dados();
-    cout << status_entrada_de_informacoes << endl;
     if (status_entrada_de_informacoes.eh_codigo_de_erro())
     {
+        cout << status_entrada_de_informacoes << endl;
         return -1;
     }
     executar_algoritmo_genetico();
