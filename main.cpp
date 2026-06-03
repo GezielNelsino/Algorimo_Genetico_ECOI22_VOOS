@@ -44,7 +44,6 @@ StatusLeituraDeDados ler_arquivo_de_cidades()
     ifstream arq_cidades("entrada/cidades.txt");
     if (arq_cidades.is_open())
     {
-        int indice = 0;
         string cidade_e_sigla;
         while (getline(arq_cidades, cidade_e_sigla))
         {
