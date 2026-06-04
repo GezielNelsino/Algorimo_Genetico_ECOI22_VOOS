@@ -119,6 +119,7 @@ void SelecaoGenetica::imprimir_melhor_da_geracao_em_colunas(int indice_geracao)
     std::cout << std::get<1>(resultados_da_geracao) << " \t";
     std::cout << std::get<2>(resultados_da_geracao) << " \t";
     std::cout << std::get<3>(resultados_da_geracao) << " \t";
+    std::cout << std::get<4>(resultados_da_geracao) << " \t";
     std::cout << std::endl;
 }
 
@@ -191,10 +192,10 @@ double SelecaoGenetica::selecionar_variancia_populacional_fitness()
         double atual = (fitness(individuos[i]) - media_populacao);
         numerador += atual * atual;
     }
-    return sqrt(numerador / TAM_POPULACAO);
+    return (numerador / TAM_POPULACAO);
 }
 
-std::tuple<double, double, double, double> SelecaoGenetica::selecionar_melhor_pior_media_variancia_fitness_geracao()
+std::tuple<double, double, double, double, double> SelecaoGenetica::selecionar_melhor_pior_media_variancia_fitness_geracao()
 {
     int ind_melhor, ind_pior;
     double numerador_media, numerador_variancia;
@@ -219,6 +220,7 @@ std::tuple<double, double, double, double> SelecaoGenetica::selecionar_melhor_pi
         double atual = (fitness(individuos[i]) - media_populacao);
         numerador_variancia += atual * atual;
     }
-    double variancia = sqrt(numerador_variancia / TAM_POPULACAO);
-    return std::make_tuple(fitness(individuos[ind_melhor]), fitness(individuos[ind_pior]), media_populacao, variancia > 1e-12 ? variancia : 0);
+    double variancia = (numerador_variancia / TAM_POPULACAO);
+    double desvio_padrao = sqrt(variancia);
+    return std::make_tuple(fitness(individuos[ind_melhor]), fitness(individuos[ind_pior]), media_populacao, variancia > 1e-12 ? variancia : 0, desvio_padrao > 1e-10 ? desvio_padrao : 0);
 }

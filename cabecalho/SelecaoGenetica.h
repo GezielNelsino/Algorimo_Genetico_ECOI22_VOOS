@@ -40,7 +40,7 @@ public:
 
     double selecionar_variancia_populacional_fitness();
 
-    std::tuple<double, double, double, double> selecionar_melhor_pior_media_variancia_fitness_geracao();
+    std::tuple<double, double, double, double, double> selecionar_melhor_pior_media_variancia_fitness_geracao();
 };
 
 #endif
