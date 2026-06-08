@@ -111,7 +111,7 @@ void SelecaoGenetica::imprimir_melhor_da_geracao(int indice_geracao)
     std::cout << std::endl;
 }
 
-void SelecaoGenetica::imprimir_melhor_da_geracao_em_colunas(int indice_geracao)
+void SelecaoGenetica::imprimir_melhor_da_geracao_em_colunas()
 {
     auto resultados_da_geracao = selecionar_melhor_pior_media_variancia_fitness_geracao();
     std::cout << std::fixed << std::setprecision(3);
@@ -128,7 +128,7 @@ void SelecaoGenetica::executar()
     for (int i = 0; i < NUM_GERACOES; ++i)
     {
         individuos = gerar_nova_populacao();
-        imprimir_melhor_da_geracao_em_colunas(i);
+        imprimir_melhor_da_geracao_em_colunas();
     }
 }
 

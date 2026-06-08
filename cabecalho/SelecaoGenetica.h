@@ -26,7 +26,7 @@ public:
 
     void imprimir_melhor_da_geracao(int indice_geracao);
 
-    void imprimir_melhor_da_geracao_em_colunas(int indice_geracao);
+    void imprimir_melhor_da_geracao_em_colunas();
 
     void executar();
 
