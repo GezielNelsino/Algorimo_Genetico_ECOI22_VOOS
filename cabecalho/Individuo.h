@@ -32,9 +32,13 @@ public:
 
     void operator=(const Individuo &ind);
 
-    friend int calcula_custo_em_dinheiro(const Individuo &ind);
+    friend int calcula_custo_em_dinheiro_voos_ida(const Individuo &ind);
 
-    friend int calcula_custo_em_tempo(const Individuo &ind);
+    friend int calcula_custo_em_dinheiro_voos_volta(const Individuo &ind);
+
+    friend int calcula_custo_em_tempo_voos_ida(const Individuo &ind);
+
+    friend int calcula_custo_em_tempo_voos_volta(const Individuo &ind);
 
     static Individuo gerar_individuo_aleatorio();
 

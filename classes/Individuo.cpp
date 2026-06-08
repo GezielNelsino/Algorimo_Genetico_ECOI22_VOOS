@@ -25,6 +25,7 @@ void Individuo::imprimir_voos() const
     for (int i = 0; i < qnt_cidades - 1; ++i)
     {
         std::cout << voos[voos_de_ida[i][this->elementos[i]]] << std::endl;
+        std::cout << voos[voos_de_volta[i][this->elementos[i]]] << std::endl;
     }
 }
 
@@ -88,12 +89,12 @@ Individuo mutation(Individuo &ind1)
 
 double fitness(const Individuo &ind)
 {
-    int custo_em_dinheiro = calcula_custo_em_dinheiro(ind);
-    int custo_em_tempo = calcula_custo_em_tempo(ind);
+    int custo_em_dinheiro = calcula_custo_em_dinheiro_voos_ida(ind) + calcula_custo_em_dinheiro_voos_volta(ind);
+    int custo_em_tempo = calcula_custo_em_tempo_voos_ida(ind) + calcula_custo_em_tempo_voos_volta(ind);
     return PESO_CUSTO * custo_em_dinheiro + PESO_TEMPO * custo_em_tempo;
 }
 
-int calcula_custo_em_dinheiro(const Individuo &ind)
+int calcula_custo_em_dinheiro_voos_ida(const Individuo &ind)
 {
     int custo_em_dinheiro = 0;
     for (int i = 0; i < qnt_cidades - 1; ++i)
@@ -103,7 +104,17 @@ int calcula_custo_em_dinheiro(const Individuo &ind)
     return custo_em_dinheiro;
 }
 
-int calcula_custo_em_tempo(const Individuo &ind)
+int calcula_custo_em_dinheiro_voos_volta(const Individuo &ind)
+{
+    int custo_em_dinheiro = 0;
+    for (int i = 0; i < qnt_cidades - 1; ++i)
+    {
+        custo_em_dinheiro += voos[voos_de_volta[i][ind.elementos[i]]].custo;
+    }
+    return custo_em_dinheiro;
+}
+
+int calcula_custo_em_tempo_voos_ida(const Individuo &ind)
 {
     int indice_do_tempo_maximo = 0;
     int indice_do_tempo_minimo = 0;
@@ -120,6 +131,25 @@ int calcula_custo_em_tempo(const Individuo &ind)
     }
     return voos[voos_de_ida[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_fim -
            voos[voos_de_ida[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim;
+}
+
+int calcula_custo_em_tempo_voos_volta(const Individuo &ind)
+{
+    int indice_do_tempo_maximo = 0;
+    int indice_do_tempo_minimo = 0;
+    for (int i = 1; i < qnt_cidades - 1; ++i)
+    {
+        if (voos[voos_de_volta[i][ind.elementos[i]]].horario_fim > voos[voos_de_volta[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_fim)
+        {
+            indice_do_tempo_maximo = i;
+        }
+        if (voos[voos_de_volta[i][ind.elementos[i]]].horario_fim < voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim)
+        {
+            indice_do_tempo_minimo = i;
+        }
+    }
+    return voos[voos_de_volta[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_fim -
+           voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim;
 }
 
 std::ostream &operator<<(std::ostream &s, const Individuo &ind)
