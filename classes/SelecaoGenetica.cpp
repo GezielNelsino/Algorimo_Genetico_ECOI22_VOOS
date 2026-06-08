@@ -33,7 +33,7 @@ Individuo SelecaoGenetica::selecionar_individuo_por_torneio()
     Individuo pior = membros[0];
     for (int i = 1; i < MEMBROS_TORNEIO; ++i)
     {
-        if (fitness(membros[i]) < fitness(pior))
+        if (fitness(membros[i]) > fitness(pior))
         {
             pior = membros[i];
         }
@@ -108,6 +108,7 @@ void SelecaoGenetica::imprimir_melhor_da_geracao(int indice_geracao)
     std::cout << "Fitness do pior individuo " << "\t\t\t: " << std::get<1>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness medio dos individuos " << "\t\t: " << std::get<2>(resultados_da_geracao) << std::endl;
     std::cout << "Variancia do fitness dos individuos " << ": " << std::get<3>(resultados_da_geracao) << std::endl;
+    std::cout << "Desvio padrao do fitness dos individuos: " << std::get<4>(resultados_da_geracao) << std::endl;
     std::cout << std::endl;
 }
 
@@ -130,6 +131,7 @@ void SelecaoGenetica::executar()
         individuos = gerar_nova_populacao();
         imprimir_melhor_da_geracao_em_colunas();
     }
+    imprimir_melhor_da_geracao(NUM_GERACOES);
 }
 
 void SelecaoGenetica::executar_algoritmo_ate_encontrar_otimo(double otimo)
