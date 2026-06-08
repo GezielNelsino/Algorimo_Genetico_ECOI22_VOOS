@@ -20,11 +20,18 @@ void Individuo::set_elemento(int i, int valor)
     elementos[i] = valor;
 }
 
-void Individuo::imprimir_voos() const
+void Individuo::imprimir_voos_ida() const
 {
     for (int i = 0; i < qnt_cidades - 1; ++i)
     {
         std::cout << voos[voos_de_ida[i][this->elementos[i]]] << std::endl;
+    }
+}
+
+void Individuo::imprimir_voos_volta() const
+{
+    for (int i = 0; i < qnt_cidades - 1; ++i)
+    {
         std::cout << voos[voos_de_volta[i][this->elementos[i]]] << std::endl;
     }
 }

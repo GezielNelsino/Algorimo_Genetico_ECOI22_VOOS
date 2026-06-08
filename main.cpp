@@ -191,7 +191,7 @@ void gerar_melhor_individuo_brute_force()
     permutar_e_analisar(0, best_fitness, dados, best_ind);
     cout << best_ind << endl;
     cout << best_fitness << endl;
-    best_ind.imprimir_voos();
+    best_ind.imprimir_voos_ida();
 }
 
 double gerar_melhor_fitness_brute_force()

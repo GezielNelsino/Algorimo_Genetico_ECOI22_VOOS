@@ -2,10 +2,10 @@
 #include "../cabecalho/Voo.h"
 
 Voo::Voo(std::string &_sigla_origem, std::string &_sigla_destino, std::string &_horario_inicio, std::string &_horario_fim, int &_custo) : sigla_origem(_sigla_origem),
-                                                                                                                      sigla_destino(_sigla_destino),
-                                                                                                                      horario_inicio(Horario(_horario_inicio)),
-                                                                                                                      horario_fim(Horario(_horario_fim)),
-                                                                                                                      custo(_custo)
+                                                                                                                                          sigla_destino(_sigla_destino),
+                                                                                                                                          horario_inicio(Horario(_horario_inicio)),
+                                                                                                                                          horario_fim(Horario(_horario_fim)),
+                                                                                                                                          custo(_custo)
 {
 }
 
@@ -21,6 +21,10 @@ bool Voo::horario_nao_eh_valido()
 
 std::ostream &operator<<(std::ostream &s, const Voo &voo)
 {
-    s << voo.custo << " " << voo.horario_inicio << " -> " << voo.horario_fim;
+    s << voo.sigla_origem << ","
+      << voo.sigla_destino << ","
+      << voo.horario_inicio << ","
+      << voo.horario_fim << ","
+      << voo.custo;
     return s;
 }

@@ -103,7 +103,8 @@ void SelecaoGenetica::imprimir_melhor_da_geracao(int indice_geracao)
 {
     Individuo melhor_individuo_geracao = selecionar_melhor_individuo();
     auto resultados_da_geracao = selecionar_melhor_pior_media_variancia_fitness_geracao();
-    std::cout << "Melhor individuo da geracao " << indice_geracao << "\t\t: " << melhor_individuo_geracao << std::endl;
+    std::cout << "Melhor individuo da geracao " << indice_geracao << ":" << std::endl;
+    melhor_individuo_geracao.imprimir_voos_ida();
     std::cout << "Fitness do melhor individuo " << "\t\t: " << std::get<0>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness do pior individuo " << "\t\t\t: " << std::get<1>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness medio dos individuos " << "\t\t: " << std::get<2>(resultados_da_geracao) << std::endl;

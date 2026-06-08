@@ -22,7 +22,9 @@ public:
 
     friend std::ostream &operator<<(std::ostream &s, const Individuo &ind);
 
-    void imprimir_voos() const;
+    void imprimir_voos_ida() const;
+
+    void imprimir_voos_volta() const;
 
     friend Individuo crossover(Individuo &ind1, Individuo &ind2);
 
