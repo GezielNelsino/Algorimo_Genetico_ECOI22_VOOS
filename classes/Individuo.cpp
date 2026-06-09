@@ -98,8 +98,8 @@ Individuo mutation(Individuo &ind1)
 
 double fitness(const Individuo &ind)
 {
-    int custo_em_dinheiro = calcula_custo_em_dinheiro_voos_ida(ind) + calcula_custo_em_dinheiro_voos_volta(ind);
-    int custo_em_tempo = calcula_custo_em_tempo_voos_ida(ind) + calcula_custo_em_tempo_voos_volta(ind);
+    int custo_em_dinheiro = calcula_custo_em_dinheiro_voos_ida(ind);
+    int custo_em_tempo = calcula_custo_em_tempo_voos_ida(ind);
     return PESO_CUSTO * custo_em_dinheiro + PESO_TEMPO * custo_em_tempo;
 }
 
