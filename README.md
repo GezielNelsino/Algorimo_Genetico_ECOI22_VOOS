@@ -1,16 +1,42 @@
-Algoritmo Genetico para identificação de melhores combinações de voos.
+# Algoritmo Genético — Combinações de Voos (ECOI22)
 
-Para compilar, execute:
-  g++ main.cpp -o main
-Para gerar os resultados, recomendo que salve as saidas em um arquivo chamado saida.txt, isso pode ser feito utilizando o comando:
-  ./main > ./saida.txt
+Implementação de algoritmo genético para identificar as melhores combinações de voos, avaliando custo em dinheiro e tempo máximo de espera.
 
-Uma combinação de voos é avaliada considerando o custo em dinheiro e o tempo de espera máximo de um indivíduo.
+## Compilação
 
-Caso queira alterar os pesos associados ao custo em dinheiro e em tempo, acesse o arquivo cabecalho\state.h e altere as macros.
+```bash
+g++ main.cpp -o main
+```
 
-A branch principal considera apenas os voos de ida. Para executar o algoritmo considerando os voos de volta selecione a branch voos-de-volta.
+## Execução
 
-Caso queira adicinar uma nova cidade isso deve ser feito adicionando sua sigla e nome ao arquivo entrada\cidades.txt, após isso, pelo menos um voo de ida e um voo de volta devem ser adicionados entre essa cidade e roma.
+```bash
+./main
+```
 
-A aplicação considera que todos os voos possuem como origem ou como destino a cidade de roma. Voos que tem horário de saida menor que o horário de entrada não são considerados válidos.
+Para salvar a saída em arquivo:
+
+```bash
+./main > saida.txt
+```
+
+## Configuração
+
+**Pesos de custo e tempo**
+Edite as macros em `cabecalho/state.h` para ajustar os pesos associados ao custo em dinheiro e em tempo de espera.
+
+**Adicionar nova cidade**
+1. Adicione a sigla e o nome ao arquivo `entrada/cidades.txt`
+2. Insira pelo menos um voo de ida e um de volta entre a nova cidade e Roma
+
+## Branches
+
+| Branch | Descrição |
+|---|---|
+| `main` | Considera apenas voos de ida |
+| `voos-de-volta` | Considera voos de volta |
+
+## Restrições
+
+- Todos os voos têm Roma como origem ou destino.
+- Voos com horário de saída anterior ao horário de chegada não são considerados válidos.
