@@ -22,18 +22,22 @@ void Individuo::set_elemento(int i, int valor)
 
 void Individuo::imprimir_voos_ida() const
 {
+    std::cout << std::endl;
     for (int i = 0; i < qnt_cidades - 1; ++i)
     {
         std::cout << voos[voos_de_ida[i][this->elementos[i]]] << std::endl;
     }
+    std::cout << std::endl;
 }
 
 void Individuo::imprimir_voos_volta() const
 {
+    std::cout << std::endl;
     for (int i = 0; i < qnt_cidades - 1; ++i)
     {
         std::cout << voos[voos_de_volta[i][this->elementos[i]]] << std::endl;
     }
+    std::cout << std::endl;
 }
 
 void Individuo::operator=(const Individuo &ind)
@@ -96,8 +100,8 @@ Individuo mutation(Individuo &ind1)
 
 double fitness(const Individuo &ind)
 {
-    int custo_em_dinheiro = calcula_custo_em_dinheiro_voos_ida(ind) + calcula_custo_em_dinheiro_voos_volta(ind);
-    int custo_em_tempo = calcula_custo_em_tempo_voos_ida(ind) + calcula_custo_em_tempo_voos_volta(ind);
+    int custo_em_dinheiro = calcula_custo_em_dinheiro_voos_volta(ind);
+    int custo_em_tempo = calcula_custo_em_tempo_voos_volta(ind);
     return PESO_CUSTO * custo_em_dinheiro + PESO_TEMPO * custo_em_tempo;
 }
 

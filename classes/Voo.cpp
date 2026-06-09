@@ -21,10 +21,25 @@ bool Voo::horario_nao_eh_valido()
 
 std::ostream &operator<<(std::ostream &s, const Voo &voo)
 {
-    s << voo.sigla_origem << ","
-      << voo.sigla_destino << ","
-      << voo.horario_inicio << ","
-      << voo.horario_fim << ","
-      << voo.custo;
+    s << nome_cidade[indice_cidade[voo.sigla_origem]];
+    if (nome_cidade[indice_cidade[voo.sigla_origem]].length() < 8)
+    {
+        for (int i = 0; i < 8 - (int)nome_cidade[indice_cidade[voo.sigla_origem]].length(); ++i)
+        {
+            s << " ";
+        }
+    }
+    s << "\t->\t";
+    s << nome_cidade[indice_cidade[voo.sigla_destino]];
+    if (nome_cidade[indice_cidade[voo.sigla_destino]].length() < 8)
+    {
+        for (int i = 0; i < 8 - (int)nome_cidade[indice_cidade[voo.sigla_destino]].length(); ++i)
+        {
+            s << " ";
+        }
+    }
+    s << ", Saida: " << voo.horario_inicio;
+    s << ", Chegada: " << voo.horario_fim;
+    s << ", Custo: " << voo.custo;
     return s;
 }
