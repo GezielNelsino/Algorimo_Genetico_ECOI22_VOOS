@@ -1,4 +1,3 @@
-#pragma once
 #include "../cabecalho/Individuo.h"
 
 Individuo::Individuo()
