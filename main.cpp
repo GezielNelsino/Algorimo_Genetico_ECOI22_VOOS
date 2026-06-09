@@ -175,7 +175,7 @@ void permutar_e_analisar(int p, double &x, vector<int> &dados, Individuo &bind)
         }
         return;
     }
-    for (int i = 0; i < (int)voos_de_ida[p].size(); ++i)
+    for (int i = 0; i < (int)voos_de_volta[p].size(); ++i)
     {
         dados[p] = i;
         permutar_e_analisar(p + 1, x, dados, bind);
@@ -191,7 +191,7 @@ void gerar_melhor_individuo_brute_force()
     permutar_e_analisar(0, best_fitness, dados, best_ind);
     cout << best_ind << endl;
     cout << best_fitness << endl;
-    best_ind.imprimir_voos_ida();
+    best_ind.imprimir_voos_volta();
 }
 
 double gerar_melhor_fitness_brute_force()
@@ -248,5 +248,6 @@ int main()
         return -1;
     }
     executar_algoritmo_genetico();
+    // gerar_melhor_individuo_brute_force();
     return 0;
 }

@@ -112,7 +112,7 @@ void SelecaoGenetica::imprimir_melhor_da_geracao(int indice_geracao)
         std::cout << "Final";
     }
     std::cout << ":" << std::endl;
-    melhor_individuo_geracao.imprimir_voos_ida();
+    melhor_individuo_geracao.imprimir_voos_volta();
     std::cout << "Fitness do melhor individuo " << "\t\t\t: " << std::get<0>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness do pior individuo " << "\t\t\t\t: " << std::get<1>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness medio dos individuos " << "\t\t\t: " << std::get<2>(resultados_da_geracao) << std::endl;
