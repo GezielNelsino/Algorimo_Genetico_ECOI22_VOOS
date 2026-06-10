@@ -4,15 +4,17 @@
 #include <vector>
 #include <tuple>
 #include <iomanip>
+#include <string>
 #include "../cabecalho/Individuo.h"
 
 class SelecaoGenetica
 {
 private:
     std::vector<Individuo> individuos;
+    std::string direcao;
 
 public:
-    SelecaoGenetica();
+    explicit SelecaoGenetica(std::string direcao);
 
     Individuo selecionar_individuo_por_torneio();
 

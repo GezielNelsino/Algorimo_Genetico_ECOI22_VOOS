@@ -1,8 +1,9 @@
 #ifndef INDIVIDUO_H
 #define INDIVIDUO_H
 
-#include <vector>
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "./state.h"
 #include "../cabecalho/Aleatorio.h"
@@ -11,38 +12,43 @@
 class Individuo
 {
 private:
-    std::vector<int> elementos;
+    std::vector<int> voos_de_ida_escolhidos;
+    std::vector<int> voos_de_volta_escolhidos;
 
 public:
     Individuo();
 
-    Individuo(const std::vector<int> &dados);
+    Individuo(std::string direcao, std::vector<int> &dados);
 
-    void set_elemento(int i, int valor);
+    Individuo(std::vector<int> &dados_ida, std::vector<int> &dados_volta);
+
+    void set_elemento(int valor, int i, std::string direcao);
+
+    int get_elemento(int i, std::string direcao) const;
 
     friend std::ostream &operator<<(std::ostream &s, const Individuo &ind);
 
-    void imprimir_voos_ida() const;
+    void imprimir_voos_ida();
 
-    void imprimir_voos_volta() const;
+    void imprimir_voos_volta();
 
-    friend Individuo crossover(Individuo &ind1, Individuo &ind2);
+    friend Individuo crossover(const Individuo &ind1, const Individuo &ind2, std::string direcao);
 
-    friend Individuo mutation(Individuo &ind1);
+    friend Individuo mutation(const Individuo &ind1, std::string direcao);
 
     friend double fitness(const Individuo &ind);
 
-    void operator=(const Individuo &ind);
+    friend double fitness(const Individuo &ind, std::string direcao);
 
-    friend int calcula_custo_em_dinheiro_voos_ida(const Individuo &ind);
+    friend int calcula_custo_em_dinheiro(const Individuo &ind, std::string direcao);
 
-    friend int calcula_custo_em_dinheiro_voos_volta(const Individuo &ind);
+    friend int calcula_custo_em_dinheiro(const Individuo &ind);
 
-    friend int calcula_custo_em_tempo_voos_ida(const Individuo &ind);
+    friend int calcula_custo_em_tempo(const Individuo &ind, std::string direcao);
 
-    friend int calcula_custo_em_tempo_voos_volta(const Individuo &ind);
+    friend int calcula_custo_em_tempo(const Individuo &ind);
 
-    static Individuo gerar_individuo_aleatorio();
+    static Individuo gerar_individuo_aleatorio(std::string direcao);
 
     friend bool operator<(const Individuo &ind1, const Individuo &ind2);
 

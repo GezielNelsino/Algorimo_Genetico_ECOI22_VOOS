@@ -162,12 +162,12 @@ StatusLeituraDeDados validar_entrada_de_dados()
 
 /* Selecao de melhor individuo com brute force (Apenas para comparativo) */
 
-void permutar_e_analisar(int p, double &x, vector<int> &dados, Individuo &bind)
+void permutar_e_analisar(int p, double &x, vector<int> &dados, Individuo &bind, string direcao)
 {
     if (p == qnt_cidades - 1)
     {
-        Individuo ind(dados);
-        double fit = fitness(ind);
+        Individuo ind(direcao, dados);
+        double fit = fitness(ind, direcao);
         if (fit < x)
         {
             x = fit;
@@ -175,32 +175,36 @@ void permutar_e_analisar(int p, double &x, vector<int> &dados, Individuo &bind)
         }
         return;
     }
-    for (int i = 0; i < (int)voos_de_volta[p].size(); ++i)
+    const auto &voos_por_cidade = direcao == "ida" ? voos_de_ida : voos_de_volta;
+    for (int i = 0; i < (int)voos_por_cidade[p].size(); ++i)
     {
         dados[p] = i;
-        permutar_e_analisar(p + 1, x, dados, bind);
+        permutar_e_analisar(p + 1, x, dados, bind, direcao);
     }
 }
 
-void gerar_melhor_individuo_brute_force()
+void gerar_melhor_individuo_brute_force(const string &direcao)
 {
     vector<int> dados(qnt_cidades - 1);
     vector<int> inicial(qnt_cidades - 1, 0);
-    Individuo best_ind(inicial);
-    double best_fitness = fitness(best_ind);
-    permutar_e_analisar(0, best_fitness, dados, best_ind);
+    Individuo best_ind(direcao, inicial);
+    double best_fitness = fitness(best_ind, direcao);
+    permutar_e_analisar(0, best_fitness, dados, best_ind, direcao);
     cout << best_ind << endl;
     cout << best_fitness << endl;
-    best_ind.imprimir_voos_volta();
+    if (direcao == "ida")
+        best_ind.imprimir_voos_ida();
+    else
+        best_ind.imprimir_voos_volta();
 }
 
-double gerar_melhor_fitness_brute_force()
+double gerar_melhor_fitness_brute_force(const string &direcao)
 {
     vector<int> dados(qnt_cidades - 1);
     vector<int> inicial(qnt_cidades - 1, 0);
-    Individuo best_ind(inicial);
-    double best_fitness = fitness(best_ind);
-    permutar_e_analisar(0, best_fitness, dados, best_ind);
+    Individuo best_ind(direcao, inicial);
+    double best_fitness = fitness(best_ind, direcao);
+    permutar_e_analisar(0, best_fitness, dados, best_ind, direcao);
     return best_fitness;
 }
 
@@ -218,23 +222,28 @@ void imprimir_voos_de_ida_cidades()
     }
 }
 
-void gerar_e_cruzar_dois_individuos_aleatorios()
-{
-    Individuo ind1 = Individuo::gerar_individuo_aleatorio();
-    Individuo ind2 = Individuo::gerar_individuo_aleatorio();
-    Individuo ind3 = crossover(ind1, ind2);
-    cout << ind1 << endl;
-    cout << ind2 << endl;
-    cout << ind3 << endl;
-    cout << fitness(ind1) << endl;
-    cout << fitness(ind2) << endl;
-    cout << fitness(ind3) << endl;
-}
+// void gerar_e_cruzar_dois_individuos_aleatorios()
+// {
+//     Individuo ind1 = Individuo::gerar_individuo_aleatorio();
+//     Individuo ind2 = Individuo::gerar_individuo_aleatorio();
+//     Individuo ind3 = crossover(ind1, ind2, "ida");
+//     cout << ind1 << endl;
+//     cout << ind2 << endl;
+//     cout << ind3 << endl;
+//     cout << fitness(ind1) << endl;
+//     cout << fitness(ind2) << endl;
+//     cout << fitness(ind3) << endl;
+// }
 
 void executar_algoritmo_genetico()
 {
-    SelecaoGenetica selecao;
-    selecao.executar();
+    cout << "SELECAO DOS VOOS DE IDA" << endl;
+    SelecaoGenetica selecao_ida("ida");
+    selecao_ida.executar();
+
+    cout << "SELECAO DOS VOOS DE VOLTA" << endl;
+    SelecaoGenetica selecao_volta("volta");
+    selecao_volta.executar();
 }
 
 /* Main */

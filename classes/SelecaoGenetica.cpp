@@ -1,11 +1,11 @@
 #include "../cabecalho/SelecaoGenetica.h"
 
-SelecaoGenetica::SelecaoGenetica()
+SelecaoGenetica::SelecaoGenetica(std::string direcao) : direcao(direcao)
 {
     individuos.resize(TAM_POPULACAO);
     for (int i = 0; i < TAM_POPULACAO; ++i)
     {
-        Individuo novo = Individuo::gerar_individuo_aleatorio();
+        Individuo novo = Individuo::gerar_individuo_aleatorio(direcao);
         individuos[i] = novo;
     }
 }
@@ -23,7 +23,7 @@ Individuo SelecaoGenetica::selecionar_individuo_por_torneio()
         Individuo melhor = membros[0];
         for (int i = 1; i < MEMBROS_TORNEIO; ++i)
         {
-            if (fitness(membros[i]) < fitness(melhor))
+            if (fitness(membros[i], direcao) < fitness(melhor, direcao))
             {
                 melhor = membros[i];
             }
@@ -33,7 +33,7 @@ Individuo SelecaoGenetica::selecionar_individuo_por_torneio()
     Individuo pior = membros[0];
     for (int i = 1; i < MEMBROS_TORNEIO; ++i)
     {
-        if (fitness(membros[i]) > fitness(pior))
+        if (fitness(membros[i], direcao) > fitness(pior, direcao))
         {
             pior = membros[i];
         }
@@ -46,7 +46,7 @@ Individuo SelecaoGenetica::selecionar_melhor_individuo()
     Individuo melhor = individuos[0];
     for (int i = 1; i < TAM_POPULACAO; ++i)
     {
-        if (fitness(individuos[i]) < fitness(melhor))
+        if (fitness(individuos[i], direcao) < fitness(melhor, direcao))
         {
             melhor = individuos[i];
         }
@@ -59,7 +59,7 @@ int SelecaoGenetica::selecionar_indice_pior_individuo()
     int indice_pior = 0;
     for (int i = 1; i < TAM_POPULACAO; ++i)
     {
-        if (fitness(individuos[i]) < fitness(individuos[indice_pior]))
+        if (fitness(individuos[i], direcao) > fitness(individuos[indice_pior], direcao))
         {
             indice_pior = i;
         }
@@ -79,12 +79,12 @@ std::vector<Individuo> SelecaoGenetica::gerar_nova_populacao()
         int prob_cruzamento = Aleatorio::gerar_probabilidade();
         if (prob_cruzamento < PROB_MIN_CRUZAMENTO)
         {
-            selecionado1 = crossover(selecionado1, selecionado2);
+            selecionado1 = crossover(selecionado1, selecionado2, direcao);
         }
         int prob_mutacao = Aleatorio::gerar_probabilidade();
         if (prob_mutacao < PROB_MIN_MUTACAO)
         {
-            selecionado1 = mutation(selecionado1);
+            selecionado1 = mutation(selecionado1, direcao);
         }
         nova_populacao[i] = selecionado1;
     }
@@ -105,14 +105,23 @@ void SelecaoGenetica::imprimir_melhor_da_geracao(int indice_geracao)
     auto resultados_da_geracao = selecionar_melhor_pior_media_variancia_fitness_geracao();
     std::cout << std::endl;
     std::cout << "Melhor individuo da geracao ";
-    if(indice_geracao == TAM_POPULACAO){
+    if (indice_geracao == TAM_POPULACAO)
+    {
         std::cout << indice_geracao;
     }
-    else{
+    else
+    {
         std::cout << "Final";
     }
     std::cout << ":" << std::endl;
-    melhor_individuo_geracao.imprimir_voos_volta();
+    if (direcao == "ida")
+    {
+        melhor_individuo_geracao.imprimir_voos_ida();
+    }
+    else
+    {
+        melhor_individuo_geracao.imprimir_voos_volta();
+    }
     std::cout << "Fitness do melhor individuo " << "\t\t\t: " << std::get<0>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness do pior individuo " << "\t\t\t\t: " << std::get<1>(resultados_da_geracao) << std::endl;
     std::cout << "Fitness medio dos individuos " << "\t\t\t: " << std::get<2>(resultados_da_geracao) << std::endl;
@@ -163,12 +172,12 @@ double SelecaoGenetica::selecionar_melhor_fitness()
     Individuo melhor = individuos[0];
     for (int i = 1; i < TAM_POPULACAO; ++i)
     {
-        if (fitness(individuos[i]) < fitness(melhor))
+        if (fitness(individuos[i], direcao) < fitness(melhor, direcao))
         {
             melhor = individuos[i];
         }
     }
-    return fitness(melhor);
+    return fitness(melhor, direcao);
 }
 
 double SelecaoGenetica::selecionar_pior_fitness()
@@ -176,12 +185,12 @@ double SelecaoGenetica::selecionar_pior_fitness()
     Individuo pior = individuos[0];
     for (int i = 1; i < TAM_POPULACAO; ++i)
     {
-        if (fitness(individuos[i]) > fitness(pior))
+        if (fitness(individuos[i], direcao) > fitness(pior, direcao))
         {
             pior = individuos[i];
         }
     }
-    return fitness(pior);
+    return fitness(pior, direcao);
 }
 
 double SelecaoGenetica::selecionar_fitness_medio()
@@ -189,7 +198,7 @@ double SelecaoGenetica::selecionar_fitness_medio()
     double total = 0;
     for (int i = 0; i < TAM_POPULACAO; ++i)
     {
-        total += fitness(individuos[i]);
+        total += fitness(individuos[i], direcao);
     }
     return total / TAM_POPULACAO;
 }
@@ -200,7 +209,7 @@ double SelecaoGenetica::selecionar_variancia_populacional_fitness()
     double media_populacao = selecionar_fitness_medio();
     for (int i = 0; i < TAM_POPULACAO; ++i)
     {
-        double atual = (fitness(individuos[i]) - media_populacao);
+        double atual = (fitness(individuos[i], direcao) - media_populacao);
         numerador += atual * atual;
     }
     return (numerador / TAM_POPULACAO);
@@ -211,27 +220,27 @@ std::tuple<double, double, double, double, double> SelecaoGenetica::selecionar_m
     int ind_melhor, ind_pior;
     double numerador_media, numerador_variancia;
     ind_melhor = ind_pior = 0;
-    numerador_media = fitness(individuos[0]);
+    numerador_media = fitness(individuos[0], direcao);
     numerador_variancia = 0;
     for (int i = 1; i < TAM_POPULACAO; ++i)
     {
-        if (fitness(individuos[i]) < fitness(individuos[ind_melhor]))
+        if (fitness(individuos[i], direcao) < fitness(individuos[ind_melhor], direcao))
         {
             ind_melhor = i;
         }
-        if (fitness(individuos[i]) > fitness(individuos[ind_pior]))
+        if (fitness(individuos[i], direcao) > fitness(individuos[ind_pior], direcao))
         {
             ind_pior = i;
         }
-        numerador_media += fitness(individuos[i]);
+        numerador_media += fitness(individuos[i], direcao);
     }
     double media_populacao = numerador_media / TAM_POPULACAO;
     for (int i = 0; i < TAM_POPULACAO; ++i)
     {
-        double atual = (fitness(individuos[i]) - media_populacao);
+        double atual = (fitness(individuos[i], direcao) - media_populacao);
         numerador_variancia += atual * atual;
     }
     double variancia = (numerador_variancia / TAM_POPULACAO);
     double desvio_padrao = sqrt(variancia);
-    return std::make_tuple(fitness(individuos[ind_melhor]), fitness(individuos[ind_pior]), media_populacao, variancia > 1e-12 ? variancia : 0, desvio_padrao > 1e-10 ? desvio_padrao : 0);
+    return std::make_tuple(fitness(individuos[ind_melhor], direcao), fitness(individuos[ind_pior], direcao), media_populacao, variancia > 1e-12 ? variancia : 0, desvio_padrao > 1e-10 ? desvio_padrao : 0);
 }
