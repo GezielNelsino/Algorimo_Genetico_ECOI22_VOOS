@@ -150,17 +150,17 @@ int calcula_custo_em_tempo_voos_volta(const Individuo &ind)
     int indice_do_tempo_minimo = 0;
     for (int i = 1; i < qnt_cidades - 1; ++i)
     {
-        if (voos[voos_de_volta[i][ind.elementos[i]]].horario_fim > voos[voos_de_volta[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_fim)
+        if (voos[voos_de_volta[i][ind.elementos[i]]].horario_inicio > voos[voos_de_volta[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_inicio)
         {
             indice_do_tempo_maximo = i;
         }
-        else if (voos[voos_de_volta[i][ind.elementos[i]]].horario_fim < voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim)
+        else if (voos[voos_de_volta[i][ind.elementos[i]]].horario_inicio < voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_inicio)
         {
             indice_do_tempo_minimo = i;
         }
     }
-    return voos[voos_de_volta[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_fim -
-           voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim;
+    return voos[voos_de_volta[indice_do_tempo_maximo][ind.elementos[indice_do_tempo_maximo]]].horario_inicio -
+           voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_inicio;
 }
 
 std::ostream &operator<<(std::ostream &s, const Individuo &ind)
