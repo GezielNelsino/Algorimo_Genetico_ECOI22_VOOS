@@ -96,8 +96,8 @@ Individuo mutation(Individuo &ind1)
 
 double fitness(const Individuo &ind)
 {
-    int custo_em_dinheiro = calcula_custo_em_dinheiro_voos_ida(ind) + calcula_custo_em_dinheiro_voos_volta(ind);
-    int custo_em_tempo = calcula_custo_em_tempo_voos_ida(ind) + calcula_custo_em_tempo_voos_volta(ind);
+    int custo_em_dinheiro =  calcula_custo_em_dinheiro_voos_volta(ind);
+    int custo_em_tempo = calcula_custo_em_tempo_voos_volta(ind);
     return PESO_CUSTO * custo_em_dinheiro + PESO_TEMPO * custo_em_tempo;
 }
 
@@ -131,7 +131,7 @@ int calcula_custo_em_tempo_voos_ida(const Individuo &ind)
         {
             indice_do_tempo_maximo = i;
         }
-        if (voos[voos_de_ida[i][ind.elementos[i]]].horario_fim < voos[voos_de_ida[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim)
+        else if (voos[voos_de_ida[i][ind.elementos[i]]].horario_fim < voos[voos_de_ida[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim)
         {
             indice_do_tempo_minimo = i;
         }
@@ -150,7 +150,7 @@ int calcula_custo_em_tempo_voos_volta(const Individuo &ind)
         {
             indice_do_tempo_maximo = i;
         }
-        if (voos[voos_de_volta[i][ind.elementos[i]]].horario_fim < voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim)
+        else if (voos[voos_de_volta[i][ind.elementos[i]]].horario_fim < voos[voos_de_volta[indice_do_tempo_minimo][ind.elementos[indice_do_tempo_minimo]]].horario_fim)
         {
             indice_do_tempo_minimo = i;
         }

@@ -7,7 +7,7 @@ int Aleatorio::gerar_aleatorio_em_intervalo(int inicio, int fim)
 }
 int Aleatorio::gera_elemento_aleatorio(int i)
 {
-    return gerar_aleatorio_em_intervalo(0, (int)voos_de_ida[i].size() - 1);
+    return gerar_aleatorio_em_intervalo(0, (int)voos_de_volta[i].size() - 1);
 }
 int Aleatorio::gerar_probabilidade()
 {
